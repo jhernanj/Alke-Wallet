@@ -61,61 +61,61 @@ body {
 
 /* Primary Button */
 .btn-primary {
-  background: linear-gradient(135deg, #db0000 0%, #ff9e9e 100%);
+  background: linear-gradient(175deg, #db0000 0%, #ff9e9e 100%);
   color: white;
   border: none;
 }
 
 .btn-primary:hover {
-  background: linear-gradient(135deg, #c70000 0%, #ff7e7e 100%);
+  background: linear-gradient(175deg, #c70000 0%, #ff7e7e 100%);
   color: white;
 }
 
-/* Success Button*/
-.btn-success {
-  background: linear-gradient(135deg, #28a745 0%, #5ae385 100%);
+/* Deposit button */
+.btn-deposit {
+  background: linear-gradient(175deg, #28a745 0%, #5ae385 100%);
   color: white;
   border: none;
 }
 
-.btn-success:hover {
-  background: linear-gradient(135deg, #218838 0%, #46c56d 100%);
+.btn-deposit:hover {
+  background: linear-gradient(175deg, #218838 0%, #46c56d 100%);
   color: white;
 }
 
 /* Info Button*/
 .btn-info {
-  background: linear-gradient(135deg, #17a2b8 0%, #5dd9eb 100%);
+  background: linear-gradient(175deg, #17a2b8 0%, #5dd9eb 100%);
   color: white;
   border: none;
 }
 
 .btn-info:hover {
-  background: linear-gradient(135deg, #138496 0%, #3acfd6 100%);
+  background: linear-gradient(175deg, #138496 0%, #3acfd6 100%);
   color: white;
 }
 
 /* Danger Button */
 .btn-danger {
-  background: linear-gradient(135deg, #dc3545 0%, #ff6b7a 100%);
+  background: linear-gradient(175deg, #dc3545 0%, #ff6b7a 100%);
   color: white;
   border: none;
 }
 
 .btn-danger:hover {
-  background: linear-gradient(135deg, #c82333 0%, #ff4759 100%);
+  background: linear-gradient(175deg, #c82333 0%,  #ff9e9e 100%);
   color: white;
 }
 
 /* Secondary Button */
 .btn-secondary {
-  background: linear-gradient(135deg, #6c757d 0%, #95a5a6 100%);
+  background: linear-gradient(175deg, #6c757d 0%, #95a5a6 100%);
   color: white;
   border: none;
 }
 
 .btn-secondary:hover {
-  background: linear-gradient(135deg, #5a6268 0%, #7f8c8d 100%);
+  background: linear-gradient(175deg, #5a6268 0%, #7f8c8d 100%);
   color: white;
 }
 
