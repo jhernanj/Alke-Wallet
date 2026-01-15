@@ -50,3 +50,7 @@ $(document).ready(function() {
         } else {
             mostrarAlerta('Correo o contraseña incorrectos.', 'danger', 'login-alert-container');
         }   
+
+    });
+
+});
