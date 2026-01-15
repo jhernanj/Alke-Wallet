@@ -24,7 +24,7 @@ $(document).ready(function() {
         const alerta = $(`
             <div class="alert alert-${tipo} alert-dismissible fade show" role="alert">
                 ${mensaje}
-                button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         `);
         $(`#${contenedor}`).append(alerta);
@@ -32,33 +32,34 @@ $(document).ready(function() {
     }
 
     /* Login */
+    if ($("#login-form").length){
+        $('#login-form').submit(function(event) {
+            event.preventDefault();
+            const email = $('#email').val();
+            const password = $('#password').val();
 
-    $('#login-form').submit(function(event) {
-        event.preventDefault();
-        const email = $('#email').val();
-        const password = $('#password').val();
+            if (!email || !password) {
+                mostrarAlerta('Por favor, ingrese su correo y contraseña.', 'warning', 'login-alert-container');
+                return;
+            }
 
-        if (!email || !password) {
-            mostrarAlerta('Por favor, ingrese su correo y contraseña.', 'warning', 'login-alert-container');
-            return;
-        }
+            if (email === 'trabajo@sence.com' && password === '913') {
+                localStorage.setItem("usuario", email);
+                mostrarAlerta('Ingresando a tu billetera', 'success', 'login-alert-container');
+                setTimeout(() => { window.location.href = 'menu.html'; }, 2100);
+            } else {
+                mostrarAlerta('Correo o contraseña incorrectos.', 'danger', 'login-alert-container');
+            }   
 
-        if (email === 'trabajo@sence.com' && password === '913') {
-            localStorage.setItem("usuario", email);
-            mostrarAlerta('Ingresando a tu billetera', 'success', 'login-alert-container');
-            setTimeout(() => { window.location.href = 'menu.html'; }, 2100);
-        } else {
-            mostrarAlerta('Correo o contraseña incorrectos.', 'danger', 'login-alert-container');
-        }   
-
-    });
+        });
+    }
 
     /* Menu */
 
     if ($("#saldo").length) {
         $("#saldo").text(`$${obtenerSaldo().toLocaleString("es-CL")}`);
 
-        $('btnDepositar').click(function() {
+        $('#btnDepositar').click(function() {
             mostrarAlerta('Redirigiendo a la página de depósito...', 'info', 'menu-alert-container');
             setTimeout(() => { window.location.href = 'deposit.html'; }, 555);
         });
@@ -92,9 +93,8 @@ $(document).ready(function() {
             mostrarAlerta(`Has depositado $${amount.toLocaleString("es-CL")}. Nuevo saldo: $${nuevoSaldo.toLocaleString("es-CL")}`, 'success', 'deposit-alert-container');
             $('#amount').val('');
             $("#saldo").text(`$${nuevoSaldo.toLocaleString("es-CL")}`);
-        })
-
-        setTimeout(() => {  window.location.href = 'menu.html'; }, 2100);
+            setTimeout(() => { window.location.href = 'menu.html'; }, 2100);
+        });
     }
 
     /* Envío de Dinero */
@@ -107,7 +107,7 @@ $(document).ready(function() {
             { id: 3, nombre: "Diego"},
         ];
 
-        const selectContacto = $('#contacto');
+        const $contactSelect = $('#contacto');
         $contactSelect.empty();
         Contactos.forEach(contacto => $contactSelect.append(`<option value="${contacto.id}">${contacto.nombre}</option>`));
 
@@ -155,7 +155,14 @@ $(document).ready(function() {
         const movimientos = obtenerMovimientos();
         const listaTransacciones = $('#transactions-list');
         listaTransacciones.empty();
-        }
-
-
+        movimientos.forEach(mov => {
+            listaTransacciones.append(`
+                <tr>
+                    <td>${mov.tipo}</td>
+                    <td>$${mov.monto.toLocaleString("es-CL")}</td>
+                    <td>${mov.fecha}</td>
+                </tr>
+            `);
+        });
+    }
 });
