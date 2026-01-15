@@ -20,7 +20,7 @@ $(document).ready(function() {
         localStorage.setItem('movimientos', JSON.stringify(movimientos));
     }
 
-    function mostrarAlerta(mensaje, tipo, contenedor= "alert-container") {
+    function mostrarAlerta(mensaje, tipo, contenedor = "alert-container") {
         const alerta = $(`
             <div class="alert alert-${tipo} alert-dismissible fade show" role="alert">
                 ${mensaje}
@@ -28,7 +28,7 @@ $(document).ready(function() {
             </div>
         `);
         $(`#${contenedor}`).append(alerta);
-        setTimeout(() => { alerta.alert('close'); }, 2100);
+        setTimeout(() => { alerta.fadeOut(300); }, 2100);
     }
 
     /* Login */
@@ -39,18 +39,17 @@ $(document).ready(function() {
             const password = $('#password').val();
 
             if (!email || !password) {
-                mostrarAlerta('Por favor, ingrese su correo y contraseña.', 'warning', 'login-alert-container');
+                mostrarAlerta('Por favor, ingrese su correo y contraseña.', 'warning', 'alert-container');
                 return;
             }
 
             if (email === 'trabajo@sence.com' && password === '913') {
                 localStorage.setItem("usuario", email);
-                mostrarAlerta('Ingresando a tu billetera', 'success', 'login-alert-container');
+                mostrarAlerta('Ingresando a tu billetera', 'success', 'alert-container');
                 setTimeout(() => { window.location.href = 'menu.html'; }, 2100);
             } else {
-                mostrarAlerta('Correo o contraseña incorrectos.', 'danger', 'login-alert-container');
+                mostrarAlerta('Correo o contraseña incorrectos.', 'danger', 'alert-container');
             }   
-
         });
     }
 
@@ -130,6 +129,7 @@ $(document).ready(function() {
             const destinatario = $('#contacto').val();
             const amount = Number($('#amount').val());
             const saldoActual = obtenerSaldo();
+            const contactoDestino = Contactos.find(c => c.id == destinatario);
 
             if (amount <= 0 || isNaN(amount)) {
                 mostrarAlerta('Ingrese un monto válido para enviar.', 'warning', 'send-alert-container');
@@ -141,12 +141,17 @@ $(document).ready(function() {
                 return;
             }
 
+            if (!contactoDestino) {
+                mostrarAlerta('Seleccione un contacto válido.', 'danger', 'send-alert-container');
+                return;
+            }
+
             guardarSaldo(saldoActual - amount);
             guardarMovimiento('Envío', amount);
-            mostrarAlerta(`Has enviado $${amount.toLocaleString("es-CL")} a ${Contactos.find(c => c.id == destinatario).nombre}. Nuevo saldo: $${(saldoActual - amount).toLocaleString("es-CL")}`, 'success', 'send-alert-container');
+            mostrarAlerta(`Has enviado $${amount.toLocaleString("es-CL")} a ${contactoDestino.nombre}. Nuevo saldo: $${(saldoActual - amount).toLocaleString("es-CL")}`, 'success', 'send-alert-container');
             $('#amount').val('');
             $("#saldo").text(`$${(saldoActual - amount).toLocaleString("es-CL")}`);
-            setTimeout(() => {  window.location.href = 'menu.html'; }, 2100);
+            setTimeout(() => { window.location.href = 'menu.html'; }, 2100);
         });
     }
 
@@ -155,14 +160,19 @@ $(document).ready(function() {
         const movimientos = obtenerMovimientos();
         const listaTransacciones = $('#transactions-list');
         listaTransacciones.empty();
-        movimientos.forEach(mov => {
-            listaTransacciones.append(`
-                <tr>
-                    <td>${mov.tipo}</td>
-                    <td>$${mov.monto.toLocaleString("es-CL")}</td>
-                    <td>${mov.fecha}</td>
-                </tr>
-            `);
-        });
+        
+        if (movimientos.length === 0) {
+            listaTransacciones.append('<tr><td colspan="3" class="text-center">No hay transacciones</td></tr>');
+        } else {
+            movimientos.forEach(mov => {
+                listaTransacciones.append(`
+                    <tr>
+                        <td>${mov.tipo}</td>
+                        <td>$${mov.monto.toLocaleString("es-CL")}</td>
+                        <td>${mov.fecha}</td>
+                    </tr>
+                `);
+            });
+        }
     }
 });
